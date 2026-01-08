@@ -3,6 +3,11 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import re
+from playwright.async_api import async_playwright
+from io import BytesIO
+from PIL import Image as PILImage
+from IPython.display import display
+import asyncio
 
 client = OpenAI(
     api_key = os.getenv("GOOGLE_API_KEY"),
@@ -17,7 +22,7 @@ class chatbot:
 
     def run_llm(self):
         response = client.chat.completions.create(
-            model="gemini-2.5-computer-use-preview-10-2025",
+            model="gemini-2.5-flash",
             messages=self.messages
         )
         return response.choices[0].message.content
@@ -30,5 +35,64 @@ class chatbot:
 
 # bot = chatbot(system="You are a helpful assistant")
 # print(bot("What is the capital of France?"))
+
+async def take_screenshot(url):
+    p = await async_playwright().start()
+    browser = None
+    try:
+        browser = await p.chromium.launch(headless=False)
+        context = await browser.new_context()
+        page = await context.new_page()
+        await page.goto(url)
+        screenshot = await page.screenshot()
+        img = PILImage.open(BytesIO(screenshot))
+        display(img)
+    finally:
+        # Clean up resources in reverse order
+        if browser:
+            await browser.close()
+        await p.stop()
+
+#asyncio.run(take_screenshot("https://www.google.com"))
+
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "load_page",
+        "description": "Go to a webpage.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "url"
+            ],
+            "additionalProperties": False
+        },
+        "strict": True
+    }
+}, {
+    "type": "function",
+    "function": {
+        "name": "click_element",
+        "description": "Click on an element by ID.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "element_id": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "element_id"
+            ],
+            "additionalProperties": False
+        },
+        "strict": True
+    }
+}]
 
 
