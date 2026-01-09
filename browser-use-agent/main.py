@@ -8,6 +8,7 @@ from io import BytesIO
 from PIL import Image as PILImage
 from IPython.display import display
 import asyncio
+import json
 
 client = OpenAI(
     api_key = os.getenv("GOOGLE_API_KEY"),
@@ -94,5 +95,55 @@ tools = [{
         "strict": True
     }
 }]
+
+class browsermgr:
+    def __init__(self):
+        self.playwright=None
+        self.browser=None
+        self.context=None
+        self.page=None
+    
+    async def start(self):
+          if self.browser is None:  # Check if already started
+            self.playwright = await async_playwright().start()
+            self.browser = await self.playwright.chromium.launch(headless=False)  # Fix: False, not false
+            self.context = await self.browser.new_context()
+            self.page = await self.context.new_page()
+        return self.page
+
+    async def close(self):
+        if self.browser:
+            await self.browser.close()
+            self.browser=None
+            self.context=None
+        if self.playwright:
+            await self.playwright.stop()
+
+browser_mgr = browsermgr()
+clickable_elements=[]
+
+async def get_clickable_elements():
+    global clickable_elements
+    page = await browser_mgr.start()
+    await page.wait_for_load_state()
+    clickable_elements = await page.query_selector_all("button, a , [role = 'button'], [onclick]")
+    labelled_elements = dict()
+    for index,element in enumerate(clickable_elements):
+        text = await element.inner_text()
+        cleaned_text = " ".join(text.split())
+        if text and await element.is_visible():
+            labelled_elements[index] = cleaned_text
+    return "page has been loaded and following element ids can be clicked : " + json.dumps(labelled_elements)
+
+async def load_page(url):
+    page = await browser_mgr.start()
+    await page.goto(url)
+    return await get_clickable_elements()
+    
+async def click_element(element_id):
+    await clickable_elements[element_id].click()
+    return await get_clickable_elements()
+
+
 
 
