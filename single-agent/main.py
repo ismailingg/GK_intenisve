@@ -28,7 +28,7 @@ class chatbot:
         result = self.run_llm()
         self.messages.append({"role":"assistant","content":result})
         return result
-
+``
     def run_llm(self):
         response = client.chat.completions.create(
             model="gemini-2.5-flash",
