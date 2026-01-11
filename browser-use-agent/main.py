@@ -168,20 +168,23 @@ class agent:
                 tool_call_name = tool_call[0].function.name
                 
                 if tool_call_name == "load_page":
-                    url = json.loads(tool_call[0].function.arguments)
+                    args = json.loads(tool_call[0].function.arguments)
+                    url = args["url"]
                     result = await load_page(url)
-                    chat_history.append({"role":"function","name":tool_call_name,"content":result})
+                    self.chat_history.append({"role":"function","name":tool_call_name,"content":result})
                 elif tool_call_name == "click_element":
-                    element_id = json.loads(tool_call[0].function.arguments)
+                    args = json.loads(tool_call[0].function.arguments)
+                    element_id = args["element_id"]
                     result = await click_element(element_id)
                     self.chat_history.append({"role":"function","name":tool_call_name,"content":result})
             else:
                 self.chat_history.append(completion.choices[0].message)
+                await browser_mgr.close()
                 break
 
             #result = self.bot(self.chat_history) 
 
-browseruser = agent("i want to go to facebook.com")  
+browseruser = agent("i want to go to pinterest")  
 
 asyncio.run(browseruser.run())
         
