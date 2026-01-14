@@ -25,6 +25,16 @@ Browser automation agent built on OpenAI-compatible function calling APIs. Uses 
 
 **Location:** `browser-use-agent/`
 
+### CrewAI Agents
+
+Multi-agent crew implementation using CrewAI framework for collaborative task execution. Agents work together to research and analyze latest AI developments with configurable roles and tasks.
+
+**Location:** `crewai-agents/latest_ai_development/`
+
+**Starting the CrewAI Agents:**
+
+1. Starting with multi-agent system using crewai.
+
 *Expect more agent implementations coming soon.*
 
 ## Architecture
@@ -42,17 +52,6 @@ Both implementations follow core agent design principles:
 - **Browser Automation**: Playwright (async)
 - **HTTP Requests**: httpx
 - **Data Processing**: Standard library (json, re, asyncio)
-
-## Project Structure
-
-```
-.
-├── single-agent/          # ReAct-style agent implementation
-│   └── main.py
-├── browser-use-agent/     # Function-calling browser automation agent
-│   └── main.py
-└── README.md
-```
 
 ## Notes
 
