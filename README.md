@@ -37,9 +37,12 @@ Multi-agent crew implementation using CrewAI framework for collaborative task ex
 
 *Expect more agent implementations coming soon.*
 
+### Google-ADK Agents
+*coming soon.*
+
 ## Architecture
 
-Both implementations follow core agent design principles:
+implementations follow core agent design principles:
 
 1. **LLM Orchestration**: Language model generates reasoning steps and action selections
 2. **Tool Execution**: External tools (APIs, calculations, browser automation) execute actions
