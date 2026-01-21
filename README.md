@@ -27,20 +27,25 @@ Browser automation agent built on OpenAI-compatible function calling APIs. Uses 
 
 ### CrewAI Agents
 
-Multi-agent crew implementation using CrewAI framework for collaborative task execution. Agents work together to research and analyze latest AI developments with configurable roles and tasks.
+Multi-agent workflows built with the CrewAI framework. Each workflow is its own small project with its own agents/tasks/tools, so you can add more workflows without rewriting this README.
 
-**Location:** `crewai-agents/latest_ai_development/`
+**Location:** `crewai-agents/`
 
-**How to run**
+**How to run a workflow**
 
-1. `cd crewai-agents/latest_ai_development`
+1. `cd crewai-agents/<workflow_name>`
 2. Install dependencies: `pip install -e .`
-3. Kick off the crew: `latest_ai_development` (or `crewai run`)
-4. Report output is written to `output/report.md`
+3. Kick off the crew (pick one):
+   - `crewai run`
+   - `python -m <workflow_package>.main` (if the workflow exposes a `main.py`)
+   - Run the workflow’s console script (defined in its `pyproject.toml`)
 
-Configuration lives in `src/latest_ai_development/config/`:
-- `agents.yaml` defines the researcher and reporting analyst
-- `tasks.yaml` defines the research and reporting tasks (uses `topic` and `current_year` inputs)
+Each workflow typically stores configuration in `src/<workflow_package>/config/` (for example `agents.yaml` and `tasks.yaml`).
+
+**workflow:** `latest_ai_development`
+
+- **researcher**: finds and summarizes relevant, recent information for the chosen topic (uses web search tooling).
+- **reporting_analyst**: turns the research notes into a structured markdown report.
 
 *Expect more agent implementations coming soon.*
 
