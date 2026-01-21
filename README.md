@@ -64,8 +64,10 @@ implementations follow core agent design principles:
 ## Tech Stack
 
 - **Language Models**: Google Gemini (via OpenAI-compatible API)
+- **Multi-agent framework**: CrewAI (multi-agent workflows + tools)
 - **Browser Automation**: Playwright (async)
 - **HTTP Requests**: httpx
+- **Web search**: Serper (via `crewai-tools`)
 - **Data Processing**: Standard library (json, re, asyncio)
 
 ## Notes
@@ -74,6 +76,4 @@ implementations follow core agent design principles:
 - Code structure prioritizes clarity and educational value over production optimization
 - Contributions, suggestions, and discussions are welcome
 
-## License
 
-[Add your license here]
