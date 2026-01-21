@@ -31,9 +31,16 @@ Multi-agent crew implementation using CrewAI framework for collaborative task ex
 
 **Location:** `crewai-agents/latest_ai_development/`
 
-**Starting the CrewAI Agents:**
+**How to run**
 
-1. Starting with multi-agent system using crewai.
+1. `cd crewai-agents/latest_ai_development`
+2. Install dependencies: `pip install -e .`
+3. Kick off the crew: `latest_ai_development` (or `crewai run`)
+4. Report output is written to `output/report.md`
+
+Configuration lives in `src/latest_ai_development/config/`:
+- `agents.yaml` defines the researcher and reporting analyst
+- `tasks.yaml` defines the research and reporting tasks (uses `topic` and `current_year` inputs)
 
 *Expect more agent implementations coming soon.*
 
